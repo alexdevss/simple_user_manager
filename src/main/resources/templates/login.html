@@ -23,6 +23,7 @@
 			    <input type="password" class="form-control" id="userPassword" placeholder="Password" >
 			  </div>
 			  <div th:if="${error != null} " class="alert alert-danger" role="alert">The user doesn't exist or data are incorrect</div>
+			  <div th:if="${noPermissions != null} " class="alert alert-danger" role="alert">You don't have permissions to create users. Please, sign in again</div>
 			  <div th:if="${logOut != null} " class="alert alert-success" role="alert">You´ve logged out successfully</div>
 			  <button type="submit" class="btn btn-primary">Submit</button>
 			</form>		

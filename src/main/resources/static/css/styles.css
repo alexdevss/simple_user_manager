@@ -1,11 +1,12 @@
 .white-box {
+	min-width: 40vw;
 	background-color: silver;
 }
 .animation{
 	  transition: all 300ms ease-in-out;
 }
 #login .container{
-	height: 100vh;
+	margin-top: 100px;
 }
 
 #login alert-danger{
@@ -28,7 +29,7 @@
 }
 
 #users main .container{
-	height: 100vh
+	margin-top: 100px;
 }
 
 #users .white-box{

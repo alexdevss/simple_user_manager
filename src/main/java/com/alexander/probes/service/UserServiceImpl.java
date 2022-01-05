@@ -46,19 +46,12 @@ public class UserServiceImpl implements UserService{
 	@Transactional(readOnly = true)
 	public User findByToken(String token) {
 		List<User> users =  userRepository.findAll();
-		for (User user : users) {
-			if(user.getToken() == null) {
-				User emptyUser = new User();
-				return emptyUser;				
-			}
-			if(user.getToken().equals(token)) {
-				return user;
-			} else {
-				continue;
-			}
+		Optional<User> oUser = users.stream().filter(u -> u.getToken() != null).filter(u -> u.getToken().equals(token)).findFirst();
+		if(!oUser.isPresent()) {
+			return new User();
+		} else {
+			return oUser.get();
 		}
-		User emptyUser = new User();
-		return emptyUser;
 	}
 
 	@Override

@@ -1,30 +1,23 @@
 package com.alexander.probes.entity;
-
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "users")
 public class User {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
 	private Long id;
 	
@@ -41,7 +34,7 @@ public class User {
     @JoinTable(name = "role_user", 
       joinColumns = { @JoinColumn(name = "user_id")}, 
       inverseJoinColumns = { @JoinColumn(name = "role_id")})
-	private Set<Role> roles;
+	private List<Role> roles;
 	
 	@Column(name="token")
 	private String  token = "";
@@ -73,16 +66,15 @@ public class User {
 	}
 
 	public User() {}
-	public Set<Role> getRoles() {
+	public List<Role> getRoles() {
 		return roles;
 	}
-	public void setRoles(Set<Role> roles) {
+	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
-	public User(Long id, String name,String email, String password,
-			Set<Role> roles, String token) {
+	public User(String name,String email, String password,
+			List<Role> roles, String token) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.password = password;

@@ -72,13 +72,12 @@ async function findUser(id){
 			console.log(e)
   	    }
 }
-
 async function validateLogin(){
     const settings = {
         method: 'POST',
         headers: {
             Accept: 'application/json',
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify({
         	'email' : document.querySelector("#userEmail").value,
@@ -99,7 +98,47 @@ async function validateLogin(){
 		}
     } catch (e) {
 
-        return e;
+        console.log(e);
     }    
 	
 };
+
+async function createUser(name, email, password, roles){
+	let token = sessionStorage.getItem("token");
+	const settings = {
+		method: "POST",
+		headers: {
+			Accept: 'application/json',
+            'Content-Type': 'application/json'
+		},
+		body : JSON.stringify({
+			name : name,
+			email : email,
+			password : password,
+			roles : roles,
+			token: token
+		})
+	};
+	try{
+		
+		let host = location.host;
+		let currentUserId = sessionStorage.getItem("userId");
+		let url = `http://${host}/api/user/${currentUserId}/addUser`;
+		
+		const fetchResponse = await fetch(url, settings);
+		const data = await fetchResponse.json();
+		
+		if(data.success){
+			document.querySelector("#request-responses").classList.contains("alert-danger") ? document.querySelector("#request-responses").classList.remove("alert-danger") : '';
+			document.querySelector("#request-responses").classList.add("alert-success");
+			document.querySelector("#request-responses").innerHTML = data.message;
+			document.querySelector("#addUserForm").reset();
+		} else {
+			document.querySelector("#request-responses").classList.contains("alert-success") ? document.querySelector("#request-responses").classList.remove("alert-success") : '';
+			document.querySelector("#request-responses").classList.add("alert-danger");
+			document.querySelector("#request-responses").innerHTML = data.message;
+		}
+	}catch(e){
+		console.log(e);
+	}
+}
